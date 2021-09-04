@@ -1,0 +1,1363 @@
+﻿<Window
+    x:Class="TODO_Helper.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:TODO_Helper"
+    mc:Ignorable="d"
+    Title="TODO-Helper"
+    Height="800"
+    Width="1200"
+    ResizeMode="NoResize"
+    Topmost="False"
+    WindowStyle="None"
+    WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <ResourceDictionary Source="Global_RD.xaml" />
+    </Window.Resources>
+
+    <Grid>
+        <!---// Background Color //-->
+        <Grid Background="#d6c8b9"
+              MouseDown="OnWindow_MouseDown">
+
+            <!--// Window Button //-->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="10" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!--// App Close Button //-->
+                <Button
+                    Grid.Column="2"
+                    Grid.Row="1"
+                    Height="40"
+                    Width="40"
+                    BorderThickness="0"
+                    Background="{StaticResource CloseImgB}"
+                    Style="{StaticResource CloseBtn}"
+                    Click="CloseBtn_Click" />
+
+                <!--// App Minimize Button //-->
+                <Button
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Height="40"
+                    Width="40"
+                    BorderThickness="0"
+                    Background="{StaticResource MinimizeImgB}"
+                    Style="{StaticResource MinimizeBtn}"
+                    Click="OnClickMinimize" />
+            </Grid>
+
+            <!--// Navigation Panel Menu //-->
+            <Grid
+                x:Name="NavPnl"
+                HorizontalAlignment="Left"
+                Width="65"
+                Background="#faf0e6">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel
+                    Grid.Row="0">
+
+                    <!--// Grid for the Menu Toggle Button //-->
+                    <Grid Height="90">
+
+                        <!--// Menu Title Text //-->
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="73,-20,0,0"
+                            Text="M E N U"
+                            Foreground="Black"
+                            FontSize="22"
+                            Background="Transparent"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource font_style}">
+
+                            <!--// Shadow Effect //-->
+                            <TextBlock.Effect>
+                                <DropShadowEffect
+                                    BlurRadius="10"
+                                    ShadowDepth="1"
+                                    Direction="-90"
+                                    Color="Gray" />
+                            </TextBlock.Effect>
+                        </TextBlock>
+
+                        <!--// Toggle Button //-->
+                        <ToggleButton
+                            x:Name="TgBtnMenu"
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left"
+                            Margin="16,-20,0,0"
+                            Height="30"
+                            Width="30"
+                            BorderThickness="0"
+                            Style="{StaticResource tb_style}"
+                            Background="{DynamicResource tb_menu_imageBrush}">
+
+                            <!--// Toggle Button Checked Unchecked Events //-->
+                            <ToggleButton.Triggers>
+                                <EventTrigger
+                                    RoutedEvent="ToggleButton.Unchecked">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+
+                                            <DoubleAnimation
+                                                Storyboard.TargetName="NavPnl"
+                                                Storyboard.TargetProperty="Width"
+                                                BeginTime="0:0:0"
+                                                From="230" To="65"
+                                                Duration="0:0:0.2" />
+
+                                            <ThicknessAnimation
+                                                Storyboard.TargetName="HomePnl"
+                                                Storyboard.TargetProperty="Margin"
+                                                BeginTime="0:0:0"
+                                                From="200,100,0,100" To="0,100,0,100"
+                                                Duration="0:0:0.2" />
+
+                                            <ThicknessAnimation
+                                                Storyboard.TargetName="TasksPnl"
+                                                Storyboard.TargetProperty="Margin"
+                                                BeginTime="0:0:0"
+                                                From="200,100,0,100" To="0,100,0,100"
+                                                Duration="0:0:0.2" />
+
+                                            <ThicknessAnimation
+                                                Storyboard.TargetName="SettingsPnl"
+                                                Storyboard.TargetProperty="Margin"
+                                                BeginTime="0:0:0"
+                                                From="200,100,0,100" To="0,100,0,100"
+                                                Duration="0:0:0.2" />
+
+                                            <ThicknessAnimation
+                                                Storyboard.TargetName="InfoPnl"
+                                                Storyboard.TargetProperty="Margin"
+                                                BeginTime="0:0:0"
+                                                From="200,100,0,100" To="0,100,0,100"
+                                                Duration="0:0:0.2" />
+
+                                            <ThicknessAnimation
+                                                Storyboard.TargetName="StProjectInfo"
+                                                Storyboard.TargetProperty="Margin"
+                                                BeginTime="0:0:0"
+                                                From="165,0,0,0" To="0,0,0,0"
+                                                Duration="0:0:0.2" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+
+                                <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+
+                                            <DoubleAnimation
+                                                Storyboard.TargetName="NavPnl"
+                                                Storyboard.TargetProperty="Width"
+                                                BeginTime="0:0:0"
+                                                From="65" To="230"
+                                                Duration="0:0:0.3" />
+
+                                            <ThicknessAnimation
+                                                Storyboard.TargetName="HomePnl"
+                                                Storyboard.TargetProperty="Margin"
+                                                BeginTime="0:0:0"
+                                                From="0,100,0,100" To="200,100,0,100"
+                                                Duration="0:0:0.2" />
+
+                                            <ThicknessAnimation
+                                                Storyboard.TargetName="TasksPnl"
+                                                Storyboard.TargetProperty="Margin"
+                                                BeginTime="0:0:0"
+                                                From="0,100,0,100" To="200,100,0,100"
+                                                Duration="0:0:0.2" />
+
+                                            <ThicknessAnimation
+                                                Storyboard.TargetName="SettingsPnl"
+                                                Storyboard.TargetProperty="Margin"
+                                                BeginTime="0:0:0"
+                                                From="0,100,0,100" To="200,100,0,100"
+                                                Duration="0:0:0.2" />
+
+                                            <ThicknessAnimation
+                                                Storyboard.TargetName="InfoPnl"
+                                                Storyboard.TargetProperty="Margin"
+                                                BeginTime="0:0:0"
+                                                From="0,100,0,100" To="200,100,0,100"
+                                                Duration="0:0:0.2" />
+
+                                            <ThicknessAnimation
+                                                Storyboard.TargetName="StProjectInfo"
+                                                Storyboard.TargetProperty="Margin"
+                                                BeginTime="0:0:0"
+                                                From="0,0,0,0" To="165,0,0,0"
+                                                Duration="0:0:0.2" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </ToggleButton.Triggers>
+                        </ToggleButton>
+                    </Grid>
+
+                    <!--// ListView with menu list items //-->
+                    <ListView
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+                        <!--// Home //-->
+                        <ListViewItem
+                            HorizontalAlignment="Left"
+                            Margin="0,0,0,15"
+                            MouseEnter="ListViewItem_MouseEnter">
+
+                            <StackPanel
+                                Orientation="Horizontal"
+                                Width="230">
+                                <Button
+                                    Height="35"
+                                    Width="205"
+                                    Margin="7,0,0,0"
+                                    BorderThickness="0"
+                                    Click="OnClickHome"
+                                    Background="Transparent">
+
+                                    <StackPanel
+                                        Orientation="Horizontal"
+                                        Width="205">
+                                        <Image
+                                            Source="Assets\img_home.png"
+                                            Stretch="Fill"
+                                            Width="35"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Left" />
+                                        <TextBlock
+                                            Text="Home"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Right"
+                                            Margin="25,0,0,0"
+                                            Style="{StaticResource font_style}" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+
+                            <!--// Tooltip //-->
+                            <ListViewItem.ToolTip>
+                                <ToolTip
+                                    x:Name="TtHome"
+                                    Content="Home"
+                                    Style="{StaticResource tt_style}" />
+                            </ListViewItem.ToolTip>
+                        </ListViewItem>
+
+                        <!--// My Tasks //-->
+                        <ListViewItem
+                            HorizontalAlignment="Left"
+                            Margin="0,0,0,15"
+                            MouseEnter="ListViewItem_MouseEnter">
+
+                            <StackPanel
+                                Orientation="Horizontal"
+                                Width="230">
+
+                                <Button
+                                    Height="35"
+                                    Width="205"
+                                    Margin="7,0,0,0"
+                                    BorderThickness="0"
+                                    Background="Transparent"
+                                    Click="OnClickMyTask">
+
+                                    <StackPanel
+                                        Orientation="Horizontal"
+                                        Width="205">
+                                        <Image
+                                            Source="Assets\img_myTasks.png"
+                                            Stretch="Fill"
+                                            Width="35"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Left" />
+                                        <TextBlock
+                                            Text="My Tasks"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Right"
+                                            Margin="25,0,0,0"
+                                            Style="{StaticResource font_style}" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+
+                            <!--// Tooltip //-->
+                            <ListViewItem.ToolTip>
+                                <ToolTip
+                                    x:Name="TtMyTasks"
+                                    Content="My Tasks"
+                                    Style="{StaticResource tt_style}" />
+                            </ListViewItem.ToolTip>
+                        </ListViewItem>
+
+                        <!--// Settings //-->
+                        <ListViewItem
+                            HorizontalAlignment="Left"
+                            Margin="0,0,0,15"
+                            MouseEnter="ListViewItem_MouseEnter">
+
+                            <StackPanel
+                                Orientation="Horizontal"
+                                Width="230">
+
+                                <Button
+                                    Height="35"
+                                    Width="205"
+                                    Margin="7,0,0,0"
+                                    BorderThickness="0"
+                                    Background="Transparent"
+                                    Click="OnClickSettings">
+
+                                    <StackPanel
+                                        Orientation="Horizontal"
+                                        Width="205">
+                                        <Image
+                                            Source="Assets\img_settings.png"
+                                            Stretch="Fill"
+                                            Width="35"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Left" />
+                                        <TextBlock
+                                            Text="Settings"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Right"
+                                            Margin="25,0,0,0"
+                                            Style="{StaticResource font_style}" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+
+                            <!--// Tooltip //-->
+                            <ListViewItem.ToolTip>
+                                <ToolTip
+                                    x:Name="TtSettings"
+                                    Content="Settings"
+                                    Style="{StaticResource tt_style}" />
+                            </ListViewItem.ToolTip>
+                        </ListViewItem>
+
+                        <!--// Info //-->
+                        <ListViewItem
+                            HorizontalAlignment="Left"
+                            Margin="0,0,0,15"
+                            MouseEnter="ListViewItem_MouseEnter">
+
+                            <StackPanel
+                                Orientation="Horizontal"
+                                Width="230">
+                                <Button
+                                    Height="35"
+                                    Width="205"
+                                    Margin="7,0,0,0"
+                                    BorderThickness="0"
+                                    Background="Transparent"
+                                    Click="OnClickInfo">
+
+                                    <StackPanel
+                                        Orientation="Horizontal"
+                                        Width="205">
+                                        <Image
+                                            Source="Assets\img_info.png"
+                                            Stretch="Fill"
+                                            Width="35"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Left" />
+                                        <TextBlock
+                                            Text="Info"
+                                            HorizontalAlignment="Right"
+                                            Margin="25,0,0,0"
+                                            Style="{StaticResource font_style}" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+
+                            <!--// Tooltip //-->
+                            <ListViewItem.ToolTip>
+                                <ToolTip
+                                    x:Name="TtInfo"
+                                    Content="Info"
+                                    Style="{StaticResource tt_style}" />
+                            </ListViewItem.ToolTip>
+                        </ListViewItem>
+
+                        <!--// Listview items style template //-->
+                        <ListView.ItemContainerStyle>
+                            <Style
+                                TargetType="ListViewItem">
+                                <Setter
+                                    Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate
+                                            TargetType="{x:Type ListViewItem}">
+                                            <Border
+                                                x:Name="BdNav"
+                                                Height="50"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                Background="{TemplateBinding Background}"
+                                                Padding="{TemplateBinding Padding}"
+                                                SnapsToDevicePixels="True">
+
+                                                <ContentPresenter
+                                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <MultiTrigger>
+                                                    <MultiTrigger.Conditions>
+                                                        <Condition
+                                                            Property="IsMouseOver"
+                                                            Value="True" />
+                                                    </MultiTrigger.Conditions>
+
+                                                    <Setter
+                                                        Property="Background"
+                                                        TargetName="BdNav"
+                                                        Value="#d6c8b9" />
+
+                                                    <Setter
+                                                        Property="BorderBrush"
+                                                        TargetName="BdNav"
+                                                        Value="#d6c8b9" />
+
+                                                </MultiTrigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
+                </StackPanel>
+            </Grid>
+
+            <!--// Navigation Panel Home //-->
+            <Grid
+                x:Name="HomePnl"
+                HorizontalAlignment="Center"
+                Width="800"
+                Margin="0,100,0,100"
+                Visibility="Visible">
+                <StackPanel>
+                    <!--// Grid for Closest Tasks //-->
+                    <Grid
+                        x:Name="ClosestTaskPnl"
+                        Height="75">
+
+                        <!--// Closest Task Title Text //-->
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="75,25,0,0"
+                            Text="Tasks that are due soon."
+                            Foreground="Black"
+                            FontSize="22"
+                            Background="Transparent"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Style="{StaticResource font_style}" />
+
+                        <!--// Toggle Button //-->
+                        <ToggleButton
+                            x:Name="TgBtnClosestTask"
+                            Grid.Column="0"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Left"
+                            Margin="15,20,0,0"
+                            Height="30"
+                            Width="30"
+                            BorderThickness="0"
+                            Background="{StaticResource tb_DropDown_UnChecked}"
+                            Style="{StaticResource tb_E_style}"
+                            Click="OnClickClosestTask">
+
+                            <!--// Toggle Button Checked Unchecked Events //-->
+                            <ToggleButton.Triggers>
+                                <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation
+                                                Storyboard.TargetName="ClosestTaskPnl"
+                                                Storyboard.TargetProperty="Height"
+                                                BeginTime="0:0:0"
+                                                From="400" To="75"
+                                                Duration="0:0:0.2" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+
+                                <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation
+                                                Storyboard.TargetName="ClosestTaskPnl"
+                                                Storyboard.TargetProperty="Height"
+                                                BeginTime="0:0:0"
+                                                From="75" To="400"
+                                                Duration="0:0:0.3" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </ToggleButton.Triggers>
+                        </ToggleButton>
+
+                        <!--// ListView with Closest Tasks //-->
+                        <ListView
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            Margin="0,75,0,0">
+
+                            <!--// No Tasks //-->
+                            <ListViewItem
+                                HorizontalAlignment="Left"
+                                Background="Transparent"
+                                IsHitTestVisible="False">
+
+                                <StackPanel
+                                    Orientation="Vertical"
+                                    Width="800"
+                                    Height="30">
+
+                                    <TextBlock
+                                        Text="There are no tasks due in the next five days."
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Bottom"
+                                        Margin="0,0,0,0"
+                                        Style="{StaticResource font_style}"
+                                        Foreground="Gray" />
+                                </StackPanel>
+                            </ListViewItem>
+                        </ListView>
+                    </Grid>
+
+                    <!--// Grid for Last Selected Project //-->
+                    <Grid
+                        x:Name="RapPnl"
+                        Height="75">
+
+                        <!--// Menu Title Text //-->
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="75,25,0,0"
+                            Text="Recently accessed projects."
+                            Foreground="Black"
+                            FontSize="22"
+                            Background="Transparent"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Style="{StaticResource font_style}" />
+
+                        <!--// Toggle Button //-->
+                        <ToggleButton
+                            x:Name="TgBtnRap"
+                            Grid.Column="0"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Left"
+                            Margin="15,20,0,0"
+                            Height="30"
+                            Width="30"
+                            BorderThickness="0"
+                            Background="{StaticResource tb_DropDown_UnChecked}"
+                            Style="{StaticResource tb_E_style}"
+                            Click="OnClickRAP">
+
+                            <!--// Toggle Button Checked Unchecked Events //-->
+                            <ToggleButton.Triggers>
+                                <EventTrigger
+                                    RoutedEvent="ToggleButton.Unchecked">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation
+                                                Storyboard.TargetName="RapPnl"
+                                                Storyboard.TargetProperty="Height"
+                                                BeginTime="0:0:0"
+                                                From="200" To="75"
+                                                Duration="0:0:0.2" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+
+                                <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation
+                                                Storyboard.TargetName="RapPnl"
+                                                Storyboard.TargetProperty="Height"
+                                                BeginTime="0:0:0"
+                                                From="75" To="200"
+                                                Duration="0:0:0.3" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </ToggleButton.Triggers>
+                        </ToggleButton>
+
+                        <!--// ListView with recently selected projects //-->
+                        <ListView
+                            x:Name="LvRap"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                            ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                            Margin="0,75,0,0">
+
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel
+                                        Grid.Row="1"
+                                        Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+
+                            <!--// Add //-->
+                            <ListViewItem
+                                HorizontalAlignment="Left"
+                                Background="Transparent"
+                                VerticalAlignment="Top">
+
+                                <StackPanel
+                                    Orientation="Vertical"
+                                    Width="100"
+                                    Height="100">
+
+                                    <Button
+                                        Width="60"
+                                        Height="60"
+                                        BorderThickness="0"
+                                        Style="{StaticResource tb_addP_style}"
+                                        Click="OnClickAddProject">
+                                        <Button.Background>
+                                            <ImageBrush ImageSource="Assets/img_add.png"
+                                                        Stretch="Fill" />
+                                        </Button.Background>
+                                    </Button>
+
+                                    <TextBlock
+                                        Text="Add"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Bottom"
+                                        Margin="0,10,0,0"
+                                        Style="{StaticResource font_style}" />
+                                </StackPanel>
+                            </ListViewItem>
+                        </ListView>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+
+            <!--// Navigation Panel Tasks //-->
+            <Grid
+                x:Name="TasksPnl"
+                HorizontalAlignment="Center"
+                Width="800"
+                Margin="0,100,0,100"
+                Visibility="Collapsed">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="6*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock
+                            Text="Task name"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            Foreground="Gray" />
+
+                        <TextBlock
+                            Text="Due date"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            Foreground="Gray" />
+
+                        <TextBlock
+                            Text="Projects"
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            Foreground="Gray" />
+                    </Grid>
+                </StackPanel>
+            </Grid>
+
+            <!--// Navigation Panel Settings //-->
+            <Grid
+                x:Name="SettingsPnl"
+                HorizontalAlignment="Center"
+                Width="800"
+                Margin="0,100,0,100"
+                Visibility="Collapsed">
+                <StackPanel>
+                    <TextBlock
+                        Text="Settings not Done" />
+                </StackPanel>
+            </Grid>
+
+            <!--// Navigation Panel Info //-->
+            <Grid
+                x:Name="InfoPnl"
+                HorizontalAlignment="Center"
+                Width="800"
+                Margin="0,100,0,100"
+                Visibility="Collapsed">
+                <StackPanel
+                    Width="Auto">
+                    <Grid
+                        Width="Auto">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="15" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="15" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Text="File format"
+                            FontSize="25"
+                            Foreground="Black" />
+
+                        <TextBlock
+                            Grid.Row="2"
+                            Text="// TODO"
+                            FontSize="20"
+                            TextWrapping="Wrap"
+                            Foreground="Gray" />
+                        <TextBlock
+                            Grid.Row="3"
+                            Text="// # Title Title of task"
+                            FontSize="20"
+                            TextWrapping="Wrap"
+                            Foreground="Gray" />
+                        <TextBlock
+                            Grid.Row="4"
+                            Text="// # Assignee My Name"
+                            FontSize="20"
+                            TextWrapping="Wrap"
+                            Foreground="Gray" />
+                        <TextBlock
+                            Grid.Row="5"
+                            Text="// # DueDate MM/dd/yyyy HH:mm"
+                            FontSize="20"
+                            TextWrapping="Wrap"
+                            Foreground="Gray" />
+                        <TextBlock
+                            Grid.Row="6"
+                            Text="// # Priority Minor"
+                            FontSize="20"
+                            TextWrapping="Wrap"
+                            Foreground="Gray" />
+                        <TextBlock
+                            Grid.Row="7"
+                            Text="// # Description Your description..."
+                            FontSize="20"
+                            TextWrapping="Wrap"
+                            Foreground="Gray" />
+                        <TextBlock
+                            Grid.Row="9"
+                            Text="// which can also be multiline as long as it's the last item"
+                            FontSize="20"
+                            TextWrapping="Wrap"
+                            Foreground="Gray" />
+
+                        <TextBlock
+                            Grid.Row="10"
+                            Text="or"
+                            FontSize="20"
+                            Foreground="Black" />
+
+                        <TextBlock
+                            Grid.Row="11"
+                            Text="/*"
+                            FontSize="20"
+                            TextWrapping="Wrap"
+                            Foreground="Gray" />
+                        <TextBlock
+                            Grid.Row="12"
+                            Text="* TODO"
+                            FontSize="20"
+                            TextWrapping="Wrap"
+                            Foreground="Gray"
+                            Margin="8,0,0,0" />
+                        <TextBlock
+                            Grid.Row="13"
+                            Text="* # Title Title of task"
+                            FontSize="20"
+                            TextWrapping="Wrap"
+                            Foreground="Gray"
+                            Margin="8,0,0,0" />
+                        <TextBlock
+                            Grid.Row="14"
+                            Text="* # Assignee My Name"
+                            FontSize="20"
+                            TextWrapping="Wrap"
+                            Foreground="Gray"
+                            Margin="8,0,0,0" />
+                        <TextBlock
+                            Grid.Row="15"
+                            Text="* # DueDate MM/dd/yyyy HH:mm"
+                            FontSize="20"
+                            TextWrapping="Wrap"
+                            Foreground="Gray"
+                            Margin="8,0,0,0" />
+                        <TextBlock
+                            Grid.Row="16"
+                            Text="* # Priority Minor"
+                            FontSize="20"
+                            TextWrapping="Wrap"
+                            Foreground="Gray"
+                            Margin="8,0,0,0" />
+                        <TextBlock
+                            Grid.Row="17"
+                            Text="* # Description Your description..."
+                            FontSize="20"
+                            TextWrapping="Wrap"
+                            Foreground="Gray"
+                            Margin="8,0,0,0" />
+                        <TextBlock
+                            Grid.Row="18"
+                            Text="* which can also be multiline as long as it's the last item"
+                            FontSize="20"
+                            TextWrapping="Wrap"
+                            Foreground="Gray"
+                            Margin="8,0,0,0" />
+                        <TextBlock
+                            Grid.Row="19"
+                            Text="*/"
+                            FontSize="20"
+                            TextWrapping="Wrap"
+                            Foreground="Gray"
+                            Margin="8,0,0,0" />
+
+                        <TextBlock
+                            Grid.Row="20"
+                            Text="Priority's"
+                            FontSize="25"
+                            Foreground="Black"
+                            Margin="0,15,0,0" />
+
+                        <TextBlock
+                            Grid.Row="21"
+                            Text="Trivial, Minor,Major,Critical,Blocker"
+                            FontSize="20"
+                            TextWrapping="Wrap"
+                            Foreground="Gray" />
+                    </Grid>
+                </StackPanel>
+            </Grid>
+
+            <!--// Project Panel //-->
+            <Grid
+                x:Name="ProjectPnl"
+                HorizontalAlignment="Center"
+                Width="1135"
+                Margin="65,0,0,0"
+                Visibility="Collapsed">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.025*" />
+                        <RowDefinition Height="0.15*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.01*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--// Project Information Panel //-->
+                    <StackPanel
+                        x:Name="StProjectInfo"
+                        Orientation="Horizontal"
+                        Grid.Row="1"
+                        Grid.Column="1">
+
+                        <Image
+                            x:Name="ImgProject"
+                            Source="Assets\img_project.png"
+                            Height="100"
+                            HorizontalAlignment="Left" />
+
+                        <TextBlock
+                            x:Name="TblProjectInfo"
+                            Text="Default Project"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontSize="30"
+                            Margin="15,0,0,0" />
+
+                        <!--// Info Button //-->
+                        <Button
+                            Width="35"
+                            Height="35"
+                            Margin="15,0,0,0"
+                            BorderThickness="0">
+                            <Button.Background>
+                                <ImageBrush
+                                    ImageSource="Assets\img_info.png"
+                                    Stretch="Fill" />
+                            </Button.Background>
+                        </Button>
+
+                        <!--// Del Button //-->
+                        <Button
+                            Width="35"
+                            Height="35"
+                            Margin="15,0,0,0"
+                            BorderThickness="0"
+                            Click="OnClickDelProject">
+                            <Button.Background>
+                                <ImageBrush
+                                    ImageSource="Assets/img_trashcan.png"
+                                    Stretch="Fill" />
+                            </Button.Background>
+                        </Button>
+                    </StackPanel>
+
+                    <!--// Project Task Panel //-->
+                    <ScrollViewer
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        MaxWidth="800"
+                        Width="Auto"
+                        MaxHeight="600"
+                        VerticalScrollBarVisibility="Auto"
+                        HorizontalScrollBarVisibility="Auto">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width=".05*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width=".05*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--// To-do //-->
+                            <Grid
+                                Grid.Column="0"
+                                Drop="OnDropLvPToDo"
+                                DragOver="OnDragOverLvPToDo">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="0.1*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="0.025*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <!--// INFO //-->
+                                <StackPanel
+                                    Grid.Row="0"
+                                    Orientation="Horizontal">
+                                    <Label
+                                        Content="To-do"
+                                        FontSize="20"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center" />
+
+                                    <Button
+                                        Width="35"
+                                        Height="35"
+                                        BorderThickness="0"
+                                        HorizontalContentAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Margin="15,0,0,0">
+                                        <Button.Background>
+                                            <ImageBrush
+                                                ImageSource="Assets\img_add.png"
+                                                Stretch="Fill" />
+                                        </Button.Background>
+                                    </Button>
+                                </StackPanel>
+
+                                <!--// ListView with To-do list items //-->
+                                <Border
+                                    Grid.Row="1"
+                                    BorderThickness="1"
+                                    Background="Transparent"
+                                    BorderBrush="Black">
+
+                                    <ListView
+                                        x:Name="LvPToDo"
+                                        Background="Transparent"
+                                        BorderBrush="Transparent"
+                                        AllowDrop="True"/>
+                                </Border>
+
+
+                                <!--// Add Task To-do list items //-->
+                                <Button
+                                    Grid.Row="3"
+                                    Height="35"
+                                    Width="150"
+                                    VerticalAlignment="Top"
+                                    Background="#faf0e6"
+                                    BorderThickness="0">
+                                    <TextBlock
+                                        Text="+ Add task"
+                                        Style="{StaticResource font_style}" />
+                                </Button>
+
+                            </Grid>
+
+                            <!--// In Progress //-->
+                            <Grid
+                                Grid.Column="2"
+                                Drop="OnDropLvPInProgress"
+                                DragOver="OnDragOverLvPInProgress">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="0.1*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="0.025*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <!--// INFO //-->
+                                <StackPanel
+                                    Grid.Row="0"
+                                    Orientation="Horizontal">
+                                    <Label
+                                        Content="In Progress"
+                                        FontSize="20"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center" />
+
+                                    <Button
+                                        Width="35"
+                                        Height="35"
+                                        BorderThickness="0"
+                                        HorizontalContentAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Margin="15,0,0,0">
+                                        <Button.Background>
+                                            <ImageBrush
+                                                ImageSource="Assets\img_add.png"
+                                                Stretch="Fill" />
+                                        </Button.Background>
+                                    </Button>
+                                </StackPanel>
+
+                                <!--// ListView with To-do list items //-->
+                                <Border
+                                    Grid.Row="1"
+                                    BorderThickness="1"
+                                    Background="Transparent"
+                                    BorderBrush="Black">
+
+                                    <ListView
+                                        x:Name="LvPInProgress"
+
+                                        Background="Transparent"
+                                        BorderBrush="Transparent"
+                                        AllowDrop="True" />
+                                </Border>
+
+                                <!--// Add Task To-do list items //-->
+                                <Button
+                                    Grid.Row="3"
+                                    Height="35"
+                                    Width="150"
+                                    VerticalAlignment="Top"
+                                    Background="#faf0e6"
+                                    BorderThickness="0">
+                                    <TextBlock Text="+ Add task"
+                                               Style="{StaticResource font_style}" />
+                                </Button>
+                            </Grid>
+
+                            <!--// Done //-->
+                            <Grid
+                                Grid.Column="4"
+                                Drop="OnDropLvPDone"
+                                DragOver="OnDragOverLvPLvPDone">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="0.1*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="0.025*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <!--// INFO //-->
+                                <StackPanel
+                                    Grid.Row="0"
+                                    Orientation="Horizontal">
+                                    <Label
+                                        Content="Done"
+                                        FontSize="20"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center" />
+
+                                    <Button
+                                        Width="35"
+                                        Height="35"
+                                        BorderThickness="0"
+                                        HorizontalContentAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Margin="15,0,0,0">
+                                        <Button.Background>
+                                            <ImageBrush
+                                                ImageSource="Assets\img_add.png"
+                                                Stretch="Fill" />
+                                        </Button.Background>
+                                    </Button>
+                                </StackPanel>
+
+                                <!--// ListView with To-do list items //-->
+                                <Border
+                                    Grid.Row="1"
+                                    BorderThickness="1"
+                                    Background="Transparent"
+                                    BorderBrush="Black">
+
+                                    <ListView
+                                        x:Name="LvPDone"
+
+                                        Background="Transparent"
+                                        BorderBrush="Transparent"
+                                        AllowDrop="True" />
+                                </Border>
+
+                                <!--// Add Task To-do list items //-->
+                                <Button
+                                    Grid.Row="3"
+                                    Height="35"
+                                    Width="150"
+                                    VerticalAlignment="Top"
+                                    Background="#faf0e6"
+                                    BorderThickness="0">
+                                    <TextBlock
+                                        Text="+ Add task"
+                                        Style="{StaticResource font_style}" />
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </ScrollViewer>
+
+                    <!--// Task Panel //-->
+                    <Grid
+                        x:Name="CurrentTaskPbl"
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Width="500"
+                        Visibility="Collapsed">
+
+                        <Border
+                            BorderBrush="Black"
+                            BorderThickness="1">
+                            <StackPanel
+                                Orientation="Vertical"
+                                Width="500">
+
+                                <!--// Task //-->
+                                <StackPanel
+                                    Orientation="Horizontal">
+
+                                    <Grid
+                                        Width="500">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="0.5*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label
+                                            Grid.Column="0"
+                                            x:Name="CurrentTaskName"
+                                            Content="Task Name"
+                                            FontSize="30"
+                                            Height="Auto" />
+
+                                        <Button
+                                            Grid.Column="1"
+                                            Width="35"
+                                            Height="35"
+                                            Margin="100,0,0,0"
+                                            BorderThickness="0"
+                                            Click="OnClickCloseTaskDetails">
+                                            <Button.Background>
+                                                <ImageBrush
+                                                    ImageSource="Assets/img_exit.png"
+                                                    Stretch="Fill" />
+                                            </Button.Background>
+                                        </Button>
+                                    </Grid>
+                                </StackPanel>
+
+                                <!--// Assignee //-->
+                                <StackPanel
+                                    Orientation="Horizontal">
+                                    <Label
+                                        Content="Assignee"
+                                        FontSize="20"
+                                        Height="50"
+                                        VerticalContentAlignment="Center"
+                                        Margin="15,0,0,0" />
+                                    <TextBox
+                                        x:Name="CurrentTaskAssignee"
+                                        Text="No assignee"
+                                        FontSize="20"
+                                        Height="50"
+                                        VerticalContentAlignment="Center"
+                                        Background="Transparent"
+                                        Foreground="Black"
+                                        BorderThickness="0"
+                                        HorizontalAlignment="Left"
+                                        Margin="50,0,0,0" />
+                                </StackPanel>
+
+                                <!--// Due date //-->
+                                <StackPanel
+                                    Orientation="Horizontal">
+                                    <Label
+                                        Content="Due date"
+                                        FontSize="20"
+                                        Height="50"
+                                        VerticalContentAlignment="Center"
+                                        Margin="15,0,0,0" />
+                                    <TextBox
+                                        x:Name="CurrentTaskDueDate"
+                                        Text="No assignee"
+                                        FontSize="20"
+                                        Height="50"
+                                        VerticalContentAlignment="Center"
+                                        Background="Transparent"
+                                        Foreground="Black"
+                                        BorderThickness="0"
+                                        HorizontalAlignment="Left"
+                                        Margin="49,0,0,0" />
+                                </StackPanel>
+
+                                <!--// Projects //-->
+                                <StackPanel
+                                    Orientation="Horizontal">
+                                    <Label
+                                        Content="Projects"
+                                        FontSize="20"
+                                        Height="50"
+                                        VerticalContentAlignment="Center"
+                                        Margin="15,0,0,0" />
+                                    <TextBox
+                                        x:Name="CurrentTaskProject"
+                                        Text="No assignee"
+                                        FontSize="20"
+                                        Height="50"
+                                        VerticalContentAlignment="Center"
+                                        Background="Transparent"
+                                        Foreground="Black"
+                                        BorderThickness="0"
+                                        HorizontalAlignment="Left"
+                                        Margin="59,0,0,0" />
+                                </StackPanel>
+
+                                <!--// Priority //-->
+                                <StackPanel
+                                    Orientation="Horizontal">
+                                    <Label
+                                        Content="Priority"
+                                        FontSize="20"
+                                        Height="50"
+                                        VerticalContentAlignment="Center"
+                                        Margin="15,0,0,0" />
+                                    <TextBox
+                                        x:Name="CurrentTaskPriority"
+                                        Text="No assignee"
+                                        FontSize="20"
+                                        Height="50"
+                                        VerticalContentAlignment="Center"
+                                        Background="Transparent"
+                                        Foreground="Black"
+                                        BorderThickness="0"
+                                        HorizontalAlignment="Left"
+                                        Margin="66,0,0,0" />
+                                </StackPanel>
+
+                                <!--// Description //-->
+                                <StackPanel
+                                    Orientation="Vertical">
+                                    <Label
+                                        Content="Description"
+                                        FontSize="20"
+                                        Height="50"
+                                        VerticalContentAlignment="Center"
+                                        Margin="15,0,0,0" />
+                                    <TextBox
+                                        x:Name="CurrentTaskDescription"
+                                        Text="Add more detail to this task..."
+                                        FontSize="20"
+                                        TextWrapping="Wrap"
+                                        Height="50"
+                                        VerticalContentAlignment="Center"
+                                        Background="Transparent"
+                                        Foreground="Black"
+                                        BorderThickness="0"
+                                        HorizontalAlignment="Left"
+                                        Margin="15,0,0,0" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
